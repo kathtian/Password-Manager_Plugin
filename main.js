@@ -1,7 +1,1 @@
-chrome.webRequest.onBeforeRequest.addListener(
-    callback
-)
-
-var callback = function() {
-    
-};
+alert("The test extension is up and running")
