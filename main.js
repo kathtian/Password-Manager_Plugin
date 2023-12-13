@@ -1,8 +1,5 @@
 import { generateEncryptionKey } from './encryption.js';
 
-// Assuming you have downloaded and included CryptoJS in your extension package
-const CryptoJS = require('crypto-js');
-
 // insert a username-password row into database
 function insertData(username, password, website) {
     fetch('http://localhost:5000/insert', {
@@ -34,19 +31,6 @@ function deleteData(rowId) {
         console.error('Error:', error);
     });
 }
-
-// Function to encrypt
-function encryptData(data) {
-  var key = "3gH!9_@f4mP*Lr2Wqz"; // Replace with your key
-  return CryptoJS.AES.encrypt(data, key).toString();
-}
-
-// // Function to decrypt
-function decryptData(data) {
-  var key = "your-encryption-key"; // Replace with your key
-  return CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
-}
-// ---------------------------------------------
 
 // Detect password fields and add listeners
 document.querySelectorAll('input[type="password"]').forEach(inputField => {
