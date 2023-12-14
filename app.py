@@ -21,12 +21,10 @@ def delete():
 @app.route('/get', methods=['GET'])
 def get_credentials():
     website = request.args.get('website')
-    username, password = database.get_username_password_by_website(website)
-    if username and password:
-        print(username, password)
+    credentials= database.get_username_password_by_website(website)
+    if credentials:
         return jsonify(credentials), 200
     else:
-        print('not found')
         return jsonify({"status": "not found"}), 404
 
 if __name__ == '__main__':
