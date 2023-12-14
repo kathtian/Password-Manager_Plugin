@@ -31,6 +31,7 @@ function getDataByWebsite(website) {
                 console.log("No credentials found. Waiting for user input.");
                 attachSubmitListener(); // Attach listener to wait for user to submit form
             } else {
+                console.log("credentials maybe found")
                 console.error("Error fetching credentials:", response.statusText);
             }
             return null;
@@ -38,7 +39,10 @@ function getDataByWebsite(website) {
         return response.json();
     })
     .then(credentials => {
+        console.log("hits here 2")
         if (credentials) {
+            console.log("credentials found")
+            console.log(credentials)
             const usernameField = document.querySelector('input[type="text"]');
             const passwordField = document.querySelector('input[type="password"]');
             if (usernameField && passwordField) {
@@ -63,12 +67,11 @@ function onFormSubmit(event) {
     event.preventDefault()
 
     const form = event.target;
-    const usernameField = document.querySelector('input[type="text"]').value; // Adjust if necessary
+    const usernameField = document.querySelector('input[type="text"]').value;
     const passwordField = document.querySelector('input[type="password"]').value;
     const website = window.location.href;
     console.log(usernameField, passwordField, website)
 
-    // if usernameField
     chrome.runtime.sendMessage({
         action: 'showPopup',
         username: usernameField,
