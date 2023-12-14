@@ -53,8 +53,11 @@ function onFormSubmit(event) {
 //   });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const website = window.location.href;
-    getDataByWebsite(website);
+    const passwordInput = document.querySelector('input[type="password"]');
+    if (passwordInput) {
+        const website = window.location.href;
+        getDataByWebsite(website);
+    }
 });
 
 function getDataByWebsite(website) {
