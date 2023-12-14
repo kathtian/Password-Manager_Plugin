@@ -2,14 +2,17 @@
   "manifest_version":3,
   "version":"1.0",
   "name":"Encryption Extension",
-  "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'"
+  "background": {
+    "service_worker": "background.js"
   },
   "content_scripts":[
     {
       "matches":["<all_urls>"],
-      "js":["encryption.js", "main.js"],
+      "js":["main.js"],
       "type": "module"
     }
-  ]
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
 }

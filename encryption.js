@@ -2,16 +2,16 @@
 // Stores all function sthat have to do with encryption/decryption of
 // data.
 
-export async function generateEncryptionKey() {
-    const key = await crypto.subtle.generateKey(
-      { name: 'AES-GCM', length: 256 },
-      true,
-      ['encrypt', 'decrypt']
-    );
-    return key;
-  }
+// export async function generateEncryptionKey() {
+//     const key = await crypto.subtle.generateKey(
+//       { name: 'AES-GCM', length: 256 },
+//       true,
+//       ['encrypt', 'decrypt']
+//     );
+//     return key;
+//   }
 
-// Encrypt data using AES-GCM
+// // Encrypt data using AES-GCM
 export async function encryptData(data, encryptionKey) {
     // Convert the data to Uint8Array
     const dataUint8 = new TextEncoder().encode(data);
