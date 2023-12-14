@@ -41,6 +41,14 @@ def get_all_username_passwords():
         username_passwords = query.all()
     return username_passwords
 
+# returns username-password for a given website if it exists in the db
+def get_username_password_by_website(website):
+    with sqlalchemy.orm.Session(_engine) as session:
+        row = session.query(PasswordManager).filter(PasswordManager.website == website).first()
+        if row:
+            return row.username, row.password
+        return None
+
 def _test():
     # insert_username_password("kathtian", "akdsjfladksjfkl", 'https://api.elephantsql.com/console/e0b82344-c867-44c2-9364-1d2b7cbf396e/details?')
     # up = get_all_username_passwords()

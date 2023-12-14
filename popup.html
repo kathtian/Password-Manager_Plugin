@@ -2,9 +2,49 @@
 <html>
 <head>
   <title>Encryption Manager</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #4a91cf;
+      text-align: center;
+      padding: 20px;
+      color: #ffffff;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    #info {
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    button {
+      background-color: #add8e6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #87ceeb;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+  </style>
 </head>
 <body>
   <h1>Would you like to store your login information for this website?</h1>
+  <p id="info">Your credentials will be securely encrypted and stored.</p>
   <button id="yes">Yes!</button>
   <button id="no">No</button>
   <script src="popup.js"></script>

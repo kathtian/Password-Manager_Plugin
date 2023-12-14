@@ -18,5 +18,16 @@ def delete():
     database.delete_username_password(row_id)
     return jsonify({"status": "success"}), 200
 
+@app.route('/get', methods=['GET'])
+def get_credentials():
+    website = request.args.get('website')
+    username, password = database.get_username_password_by_website(website)
+    if username and password:
+        print(username, password)
+        return jsonify(credentials), 200
+    else:
+        print('not found')
+        return jsonify({"status": "not found"}), 404
+
 if __name__ == '__main__':
     app.run(debug=True)
