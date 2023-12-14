@@ -1,21 +1,28 @@
+// popup.js
+
+// Assign functions to buttons
 const noButton = document.getElementById('no');
 const yesButton = document.getElementById('yes');
-const info = document.getElementById('info');
 
-noButton.addEventListener('click', handleNoClick)
-yesButton.addEventListener('click', handleYesClick)
+noButton.addEventListener('click', handleNoClick);
+yesButton.addEventListener('click', handleYesClick);
 
+// Get data from the request
 var queryParams = new URLSearchParams(window.location.search);
 var username = queryParams.get('username');
 var password = queryParams.get('password');
 var website = queryParams.get('website');
+var iv;
 
-var key = generateEncryptionKey()
-response = encryptData(password, key);
-password = repsonse.encryptedData;
-var iv = response.iv;
-
-console.log(username, password, iv, website);
+// Encrypt password
+generateEncryptionKey().then((key) => {
+    response = encryptData(password, key).then((response) => {
+        password = response.encryptedData;
+        iv = response.iv;
+        noButton.disabled = false;
+        yesButton.disabled = false;
+    })
+})
 
 function handleNoClick() {
     window.close()
@@ -23,14 +30,15 @@ function handleNoClick() {
 
 function handleYesClick() {
     // insertData(username, password, website)
+    console.log(username, password, iv, website);
     console.log("submission success!");
-    window.close()
+    // window.close()
 }
 
 // ------------------------------------------------------------- //
 
 // insert a username-password row into database
-function insertData(username, password, website) {
+function insertData(username, password, iv, website) {
     fetch('http://localhost:5000/insert', {
         method: 'POST',
         headers: {
