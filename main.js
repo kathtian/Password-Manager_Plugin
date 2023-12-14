@@ -24,7 +24,7 @@ function onFormSubmit(event) {
     //     password: passwordField,
     //     website: website
     // }
-    
+
     // if usernameField
     chrome.runtime.sendMessage({
         action: 'showPopup',
@@ -39,10 +39,10 @@ document.querySelectorAll('input[type="password"]').forEach(inputField => {
     inputField.addEventListener('change', async () => {
       try {
           const encryptionKey = await generateEncryptionKey();
-  
+
           const { encryptedData, iv } = await encryptData(inputField.value, encryptionKey);
           console.log('Encrypted data:', encryptedData);
-      
+
           const decryptedData = await decryptData(encryptedData, encryptionKey, iv);
           console.log('Decrypted data:', decryptedData);
           // trigger the popup
@@ -50,7 +50,7 @@ document.querySelectorAll('input[type="password"]').forEach(inputField => {
         //       action: 'showPopup',
         //       username: ,
         //       password: inputfield,
-        //       website: 
+        //       website:
         //   });
       } catch (error) {
           console.error('Error:', error);
@@ -66,7 +66,7 @@ document.querySelectorAll('input[type="password"]').forEach(inputField => {
         if (!response.ok) {
             throw new Error('No credentials found for this website');
         }
-        return response.json();
+        // return response.json();
     })
     .then(credentials => {
         console.log('Credentials found:', credentials);

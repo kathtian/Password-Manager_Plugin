@@ -46,7 +46,10 @@ def get_username_password_by_website(website):
     with sqlalchemy.orm.Session(_engine) as session:
         row = session.query(PasswordManager).filter(PasswordManager.website == website).first()
         if row:
-            return row.username, row.password
+            return {
+                'username': row.username,
+                'password': row.password
+            }
         return None
 
 def _test():
