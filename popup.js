@@ -30,7 +30,7 @@ function handleNoClick() {
 
 function handleYesClick() {
     insertData(username, password, iv, website)
-    console.log(username, password, iv, website);
+    // console.log(username, password, iv, website);
     console.log("submission success!");
     // window.close()
 }
@@ -39,12 +39,24 @@ function handleYesClick() {
 
 // insert a username-password row into database
 function insertData(username, password, iv, website) {
+    // console.log(username, password, iv, website);
+    passwordArray = Array.from(new Uint8Array(password));
+    ivArray = Array.from(new Uint8Array(iv));
+
+
+    console.log(passwordArray)
+    console.log(ivArray)
+
     fetch('http://localhost:5000/insert', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password, iv, website }),
+        body: JSON.stringify({
+            username,
+            password: passwordArray,
+            iv: ivArray,
+            website }),
     })
     .then(response => response.json())
     .then(data => {
