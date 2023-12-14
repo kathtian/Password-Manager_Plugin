@@ -2,6 +2,8 @@ import os
 import sqlalchemy
 import sqlalchemy.orm
 import dotenv
+import array
+import base64
 
 dotenv.load_dotenv()
 _DATABASE_URL = os.environ['DATABASE_URL']
@@ -47,17 +49,16 @@ def get_username_password_by_website(website):
     with sqlalchemy.orm.Session(_engine) as session:
         row = session.query(PasswordManager).filter(PasswordManager.website == website).first()
         if row:
+            encoded_password = base64.b64encode(row.password).decode('utf-8')
+            encoded_iv = base64.b64encode(row.iv).decode('utf-8')
             return {
                 'username': row.username,
-                'password': row.password
+                'password': encoded_password,
+                'iv': encoded_iv
             }
         return None
 
 def _test():
-    # insert_username_password("kathtian", "akdsjfladksjfkl", 'https://api.elephantsql.com/console/e0b82344-c867-44c2-9364-1d2b7cbf396e/details?')
-    # up = get_all_username_passwords()
-    # for u in up:
-    #     delete_username_password(u.row_id)
     print()
 
 if __name__ == '__main__':

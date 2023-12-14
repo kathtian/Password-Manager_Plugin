@@ -32,14 +32,12 @@ function handleYesClick() {
     insertData(username, password, iv, website)
     // console.log(username, password, iv, website);
     console.log("submission success!");
-    // window.close()
 }
 
 // ------------------------------------------------------------- //
 
 // insert a username-password row into database
 function insertData(username, password, iv, website) {
-    // console.log(username, password, iv, website);
     passwordArray = Array.from(new Uint8Array(password));
     ivArray = Array.from(new Uint8Array(iv));
 
@@ -61,9 +59,11 @@ function insertData(username, password, iv, website) {
     .then(response => response.json())
     .then(data => {
         console.log('Success:', data);
+        window.close()
     })
     .catch((error) => {
         console.error('Error:', error);
+        window.close()
     });
 }
 
@@ -83,12 +83,19 @@ function deleteData(rowId) {
 
 async function generateEncryptionKey() {
     const key = await crypto.subtle.generateKey(
-      { name: 'AES-GCM', length: 256 },
-      true,
-      ['encrypt', 'decrypt']
+        { name: 'AES-GCM', length: 256 },
+        true,
+        ['encrypt', 'decrypt']
     );
+
+    // Export the key to a JWK (JSON Web Key) format
+    const jwkKey = await crypto.subtle.exportKey('jwk', key);
+
+    // Store the JWK in chrome.storage.local
+    chrome.storage.local.set({ 'encryptionKey': jwkKey });
+
     return key;
-  }
+}
 
 // Encrypt data using AES-GCM
 async function encryptData(data, encryptionKey) {
@@ -106,17 +113,4 @@ async function encryptData(data, encryptionKey) {
     );
 
     return { encryptedData, iv };
-}
-
-// Decrypt data using AES-GCM
-async function decryptData(encryptedData, encryptionKey, iv) {
-    // Perform decryption
-    const decryptedData = await crypto.subtle.decrypt(
-      { name: 'AES-GCM', iv },
-      encryptionKey,
-      encryptedData
-    );
-
-    // Convert the decrypted data back to a string
-    return new TextDecoder().decode(decryptedData);
 }

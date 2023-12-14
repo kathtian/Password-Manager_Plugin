@@ -11,18 +11,14 @@ CORS(app)
 
 @app.route('/insert', methods=['POST'])
 def insert():
-    # print("insert")
     data = request.json
-
-    # print(data.get('password'))
-    # print(data.get('iv'))
 
     arrayPassword = bytearray(data.get('password'))
     arrayIv = bytearray(data.get('iv'))
 
     print(arrayPassword)
     print(arrayIv)
-    
+
     database.insert_username_password(data['username'], arrayPassword, arrayIv, data['website'])
     return jsonify({"status": "success"}), 200
 
