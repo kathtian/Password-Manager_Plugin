@@ -1,3 +1,4 @@
+import json
 import sys
 sys.dont_write_bytecode = True
 
@@ -8,8 +9,19 @@ app = Flask(__name__)
 
 @app.route('/insert', methods=['POST'])
 def insert():
+    # print("insert")
     data = request.json
-    database.insert_username_password(data['username'], data['password'], data['iv'], data['website'])
+
+    # print(data.get('password'))
+    # print(data.get('iv'))
+
+    arrayPassword = bytearray(data.get('password'))
+    arrayIv = bytearray(data.get('iv'))
+
+    print(arrayPassword)
+    print(arrayIv)
+    
+    database.insert_username_password(data['username'], arrayPassword, arrayIv, data['website'])
     return jsonify({"status": "success"}), 200
 
 @app.route('/delete', methods=['DELETE'])
