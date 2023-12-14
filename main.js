@@ -1,12 +1,61 @@
-const passwordInputs = document.querySelectorAll('input[type="password"]');
+// const passwordInputs = document.querySelectorAll('input[type="password"]');
 
-console.log("extension running")
+// console.log("extension running")
 
-if (passwordInputs.length > 0) {
-    document.querySelectorAll('button[type="submit"]').forEach((submitButton) => {
+// if (passwordInputs.length > 0) {
+//     document.querySelectorAll('button[type="submit"]').forEach((submitButton) => {
+//         console.log("password input field found")
+//         submitButton.addEventListener('click', onFormSubmit)
+//     })
+// }
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("hits here")
+    const passwordInputs = document.querySelectorAll('input[type="password"]');
+    if (passwordInputs.length > 0) {
         console.log("password input field found")
-        submitButton.addEventListener('click', onFormSubmit)
+        const website = window.location.href;
+        getDataByWebsite(website);
+    }
+});
+
+function getDataByWebsite(website) {
+    fetch(`http://localhost:5000/get?website=${encodeURIComponent(website)}`, {
+        method: 'GET'
     })
+    .then(response => {
+        console.log("response")
+        console.log(response.status)
+        if (!response.ok) {
+            if (response.status === 404) {
+                console.log("No credentials found. Waiting for user input.");
+                attachSubmitListener(); // Attach listener to wait for user to submit form
+            } else {
+                console.error("Error fetching credentials:", response.statusText);
+            }
+            return null;
+        }
+        return response.json();
+    })
+    .then(credentials => {
+        if (credentials) {
+            const usernameField = document.querySelector('input[type="text"]');
+            const passwordField = document.querySelector('input[type="password"]');
+            if (usernameField && passwordField) {
+                usernameField.value = credentials.username;
+                passwordField.value = credentials.password;
+            }
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+function attachSubmitListener() {
+    document.querySelectorAll('button[type="submit"]').forEach((submitButton) => {
+        submitButton.addEventListener('click', onFormSubmit);
+    });
 }
 
 function onFormSubmit(event) {
@@ -25,62 +74,5 @@ function onFormSubmit(event) {
         username: usernameField,
         password: passwordField,
         website: website
-    });
-}
-
-// Detect password fields and add listeners
-// document.querySelectorAll('input[type="password"]').forEach(inputField => {
-//     inputField.addEventListener('change', async () => {
-//       try {
-//           const encryptionKey = await generateEncryptionKey();
-
-//           const { encryptedData, iv } = await encryptData(inputField.value, encryptionKey);
-//           console.log('Encrypted data:', encryptedData);
-
-//           const decryptedData = await decryptData(encryptedData, encryptionKey, iv);
-//           console.log('Decrypted data:', decryptedData);
-//           // trigger the popup
-//         //   chrome.runtime.sendMessage({
-//         //       action: 'showPopup',
-//         //       username: ,
-//         //       password: inputfield,
-//         //       website:
-//         //   });
-//       } catch (error) {
-//           console.error('Error:', error);
-//       }
-//     });
-//   });
-
-document.addEventListener('DOMContentLoaded', () => {
-    const passwordInput = document.querySelector('input[type="password"]');
-    if (passwordInput) {
-        const website = window.location.href;
-        getDataByWebsite(website);
-    }
-});
-
-function getDataByWebsite(website) {
-    fetch(`http://localhost:5000/get?website=${encodeURIComponent(website)}`, {
-        method: 'GET'
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('No credentials found for this website');
-        }
-        return response.json();
-    })
-    .then(credentials => {
-        // Automatically fill the username and password fields
-        const usernameField = document.querySelector('input[type="text"]');
-        const passwordField = document.querySelector('input[type="password"]');
-
-        if (usernameField && passwordField) {
-            usernameField.value = credentials.username;
-            passwordField.value = credentials.password;
-        }
-    })
-    .catch((error) => {
-        console.error('Error:', error);
     });
 }

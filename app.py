@@ -2,9 +2,11 @@ import sys
 sys.dont_write_bytecode = True
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import database  # Ensure this is your database.py file
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/insert', methods=['POST'])
 def insert():
