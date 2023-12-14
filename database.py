@@ -16,12 +16,13 @@ class PasswordManager(Base):
     __tablename__ = 'password_manager'
     row_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key = True, autoincrement = True)
     username = sqlalchemy.Column(sqlalchemy.String)
-    password = sqlalchemy.Column(sqlalchemy.String)
+    password = sqlalchemy.Column(sqlalchemy.LargeBinary)
+    iv = sqlalchemy.Column(sqlalchemy.LargeBinary)
     website = sqlalchemy.Column(sqlalchemy.String)
 
 # adds a username-password pair into PasswordManager table
-def insert_username_password(username, password, website):
-    new_username_password = PasswordManager(username=username, password=password, website=website)
+def insert_username_password(username, password, iv, website):
+    new_username_password = PasswordManager(username=username, password=password, iv=iv, website=website)
 
     with sqlalchemy.orm.Session(_engine) as session:
         session.add(new_username_password)

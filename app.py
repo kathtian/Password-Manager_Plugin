@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route('/insert', methods=['POST'])
 def insert():
     data = request.json
-    database.insert_username_password(data['username'], data['password'], data['website'])
+    database.insert_username_password(data['username'], data['password'], data['iv'], data['website'])
     return jsonify({"status": "success"}), 200
 
 @app.route('/delete', methods=['DELETE'])
