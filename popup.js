@@ -30,7 +30,6 @@ function handleNoClick() {
 
 function handleYesClick() {
     insertData(username, password, iv, website)
-    // console.log(username, password, iv, website);
     console.log("submission success!");
 }
 
@@ -40,10 +39,6 @@ function handleYesClick() {
 function insertData(username, password, iv, website) {
     passwordArray = Array.from(new Uint8Array(password));
     ivArray = Array.from(new Uint8Array(iv));
-
-
-    console.log(passwordArray)
-    console.log(ivArray)
 
     fetch('http://localhost:5000/insert', {
         method: 'POST',
@@ -60,21 +55,6 @@ function insertData(username, password, iv, website) {
     .then(data => {
         console.log('Success:', data);
         window.close()
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        window.close()
-    });
-}
-
-// delete a username-password row from the database
-function deleteData(rowId) {
-    fetch(`http://localhost:5000/delete?row_id=${rowId}`, {
-        method: 'DELETE'
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
     })
     .catch((error) => {
         console.error('Error:', error);

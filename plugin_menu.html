@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Encryption Manager</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #4a91cf;
+      text-align: center;
+      padding: 20px;
+      color: #ffffff;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    #info {
+      margin-bottom: 20px;
+      color: #ffffff;
+    }
+
+    button {
+      background-color: #add8e6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #87ceeb;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+    button:disabled {
+      background-color: #a9a9a9;
+      cursor: not-allowed;
+      box-shadow: none;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="title">Would you like to delete your stored passwords?</h1>
+  <button id="delete">Delete</button>
+  <script src="plugin_menu.js"></script>
+</body>
+</html>

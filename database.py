@@ -31,10 +31,11 @@ def insert_username_password(username, password, iv, website):
         session.commit()
 
 # removes a username-password from PasswordManager table
-def delete_username_password(row_id):
+def delete_username_password():
     with sqlalchemy.orm.Session(_engine) as session:
-        to_delete = session.query(PasswordManager).filter(PasswordManager.row_id == row_id).first()
-        session.delete(to_delete)
+        rows_to_delete = session.query(PasswordManager).all()
+        for row in rows_to_delete:
+            session.delete(row)
         session.commit()
 
 # returns a list of all username-passwords

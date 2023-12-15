@@ -1,9 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const passwordInputs = document.querySelectorAll('input[type="password"]');
     if (passwordInputs.length > 0) {
-        console.log("password input field found")
+        console.log("Password field found!")
         const website = window.location.href;
         getDataByWebsite(website);
+    }
+    else {
+        console.log("Password field not found.")
+        console.log(passwordInputs.length)
     }
 });
 
@@ -12,8 +16,6 @@ function getDataByWebsite(website) {
         method: 'GET'
     })
     .then(response => {
-        console.log("response")
-        console.log(response.status)
         if (!response.ok) {
             if (response.status === 404) {
                 console.log("No credentials found. Waiting for user input.");
@@ -27,7 +29,6 @@ function getDataByWebsite(website) {
         return response.json();
     })
     .then(credentials => {
-        console.log("hits here 2")
         if (credentials) {
             decryptData(credentials.password, credentials.iv).then(password => {
                 const usernameField = document.querySelector('input[type="text"]');
@@ -53,7 +54,6 @@ function attachSubmitListener() {
 function onFormSubmit(event) {
     event.preventDefault()
 
-
     const form = event.target.closest('form');
     if (!form) {
         console.error("No form found.");
@@ -63,7 +63,6 @@ function onFormSubmit(event) {
     const usernameField = document.querySelector('input[type="text"]').value;
     const passwordField = document.querySelector('input[type="password"]').value;
     const website = window.location.href;
-    console.log(usernameField, passwordField, website)
 
     chrome.runtime.sendMessage({
         action: 'showPopup',

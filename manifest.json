@@ -13,14 +13,9 @@
       "matches": ["<all_urls>"],
       "js": ["main.js"],
       "run_at": "document_start"
-    },
-    {
-      "matches":["<all_urls>"],
-      "js":["main.js"],
-      "type": "module"
     }
   ],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "plugin_menu.html"
   }
 }

@@ -24,8 +24,7 @@ def insert():
 
 @app.route('/delete', methods=['DELETE'])
 def delete():
-    row_id = request.args.get('row_id')
-    database.delete_username_password(row_id)
+    database.delete_username_password()
     return jsonify({"status": "success"}), 200
 
 @app.route('/get', methods=['GET'])
